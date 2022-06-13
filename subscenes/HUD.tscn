@@ -1,0 +1,156 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://assets/fonts/flappyfont.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/scripts/HUD.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/panel_score.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/button_play_normal.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/button_play_pressed.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/medal_bronze.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/medal_platinum.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/medal_silver.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/medal_gold.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/button_menu.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/quit_button.png" type="Texture" id=11]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=3]
+default_font = SubResource( 2 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ null, ExtResource( 6 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "medals",
+"speed": 5.0
+} ]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="Score" type="Label" parent="."]
+margin_right = 244.0
+margin_bottom = 63.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="GameOver" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="GameOver"]
+margin_left = 22.0
+margin_top = 120.0
+margin_right = 225.0
+margin_bottom = 233.0
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreLabel" type="Label" parent="GameOver/TextureRect"]
+margin_left = 145.0
+margin_top = 32.0
+margin_right = 185.0
+margin_bottom = 53.0
+theme = SubResource( 3 )
+custom_colors/font_color = Color( 0.976471, 0.47451, 0.364706, 1 )
+custom_colors/font_color_shadow = Color( 0.945098, 0.921569, 0.670588, 1 )
+custom_constants/shadow_offset_x = 2
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HighScoreLabel" type="Label" parent="GameOver/TextureRect"]
+margin_left = 116.0
+margin_top = 83.0
+margin_right = 214.0
+margin_bottom = 104.0
+theme = SubResource( 3 )
+custom_colors/font_color = Color( 0.976471, 0.47451, 0.364706, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.941176, 0.913725, 0.647059, 1 )
+custom_constants/shadow_offset_x = 2
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Medal" type="AnimatedSprite" parent="GameOver/TextureRect"]
+position = Vector2( 42, 63 )
+scale = Vector2( 2, 2 )
+frames = SubResource( 4 )
+animation = "medals"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RestartButton" type="TextureButton" parent="GameOver"]
+margin_left = 71.0
+margin_top = 263.0
+margin_right = 123.0
+margin_bottom = 292.0
+rect_scale = Vector2( 2, 2 )
+theme = SubResource( 3 )
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" type="TextureButton" parent="GameOver"]
+margin_left = 76.0
+margin_top = 328.0
+margin_right = 116.0
+margin_bottom = 342.0
+rect_scale = Vector2( 1.5, 1.5 )
+texture_normal = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="TextureButton" parent="GameOver"]
+margin_left = 144.0
+margin_top = 328.0
+margin_right = 157.0
+margin_bottom = 342.0
+rect_scale = Vector2( 1.5, 1.5 )
+texture_normal = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="pressed" from="GameOver/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="GameOver/MenuButton" to="." method="_on_MenuButton_pressed"]
+[connection signal="pressed" from="GameOver/QuitButton" to="." method="_on_QuitButton_pressed"]
